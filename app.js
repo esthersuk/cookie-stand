@@ -18,18 +18,11 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
   this.customersPerHour = [];
   this.cookiesPerHour = [];
   this.totalDailyCookiesSold = 0;
-  // this.getCookiesSold();
+  this.getCookiesSold();
   // this.randomCustomersPerHour();
   // this.randomCookiesPerHour();
   samsShop.push(this);
-  // this.render();
-}
-function renderAllStores() {
-  header();
-  for(var i = 0; i < hours.length; i++) {
-    samsShop[i].getCookiesSold();
-    samsShop[i].render();
-  }
+  this.render();
 }
 //Methods
 Store.prototype.calcCustomersPerHour = function(){
@@ -44,8 +37,15 @@ Store.prototype.getCookiesSold = function(){
   for(var i = 0; i < hours.length; i++) {
     var cookies = Math.ceil(this.customersPerHour[i] * this.avgCookiesPerCustomer);
     this.cookiesPerHour.push(cookies);
-    this.totalSales += cookies; //hourly sales added to the total sales
+    this.totalDailyCookiesSold += cookies; //hourly sales added to the total sales
   }
+  // function renderAllStores() {
+  //   header();
+  //   for(var i = 0; i < hours.length; i++) {
+  //     samsShop[i].getCookiesSold();
+  //     samsShop[i].render();
+  //   }
+  // }
   // return this.hourlySales;
 };
 // function randCust(min, max) {
@@ -90,13 +90,27 @@ Store.prototype.render = function() {
   tableRowEl.appendChild(tableDataEl);
   theTable.appendChild(tableRowEl);
 };
-
+function handleSubmission(event){
+  event.preventDefault();
+  var locaInput = event.target.loca.value;
+  var minInput = event.target.minc.value;
+  var maxInput = event.target.maxc.value;
+  var avgCookies = event.target.avgc.value;
+  new Store(locaInput,minInput,maxInput,avgCookies);
+  event.target.loca.value = null;
+  event.target.minc.value = null;
+  event.target.maxc.value = null;
+  event.target.avgc.value = null;
+}
+header();
 var pikePlaceMkt = new Store('Pike Place Market', 23, 65, 6.3);
 var seaTacAirport = new Store( 'SeaTac Airport', 3, 24, 1.2);
 var seattleCenter = new Store( 'Seattle Center', 11, 38, 3.7);
 var capitolHill = new Store( 'Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 3, 24, 1.2);
-renderAllStores();
+
+newLocations.addEventListener('submit', handleSubmission);
+
 // pikePlaceMkt.getCookiesSold ();
 // seaTacAirport.getCookiesSold ();
 // seattleCenter.getCookiesSold ();

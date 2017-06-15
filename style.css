@@ -1,0 +1,21 @@
+td, th, tr {
+  border: 4px solid black;
+  border-collapse:collapse;
+  margin: 0;
+  padding: 15px;
+  background-color: pink;
+}
+body {
+    background-image: url("http://www.paradisepastry.com/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/I/M/IMG_8062__68583_5_1_2_1_1_2.png");
+    background-color: #cccccc;
+}
+/*th {
+  backgorou
+}*/
+
+/*
+/*
+img {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
