@@ -5,6 +5,7 @@ var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '
 var samsShop = [];
 //declaringavariable called samsShop and rendering to the DOM
 var theTable = document.getElementById('shops');
+// var theForm =
 function getSum(total,num){
   return total + num;
 }
@@ -39,6 +40,11 @@ Store.prototype.getCookiesSold = function(){
     this.cookiesPerHour.push(cookies);
     this.totalDailyCookiesSold += cookies; //hourly sales added to the total sales
   }
+  function renderAllStores() {
+    for(var i = 0; i < location.length; i++){
+      location[i].render();
+    }
+  }
   // function renderAllStores() {
   //   header();
   //   for(var i = 0; i < hours.length; i++) {
@@ -58,8 +64,9 @@ Store.prototype.getCookiesSold = function(){
 //     salmonCookies[i].render();
 //   }
 // }
-
+//header
 function header(){
+  console.log('header');
   var tableRow = document.createElement('tr');
   var tableHead = document.createElement('th');
   tableHead.textContent = 'location';
@@ -75,7 +82,38 @@ function header(){
   tableRow.appendChild(tableHead);
   theTable.appendChild(tableRow);
 }
+function makeFooterRow() {
+  console.log('footer');
+  var tableRowEl = document.createElement('tr');
+  var tableHeadEl = document.createElement('th');
+  tableHeadEl.textContent = 'Hourly Totals for All Locations';
+  tableRowEl.appendChild(tableHeadEl);
+
+  var totalOfTotals = 0;
+  var hourlyTotal = 0;
+
+  for (var i = 0; i < hours.length; i++) {
+    hourlyTotal = 0;
+    for (var j = 0; j < location.length; j++) {
+      console.log('forloop');
+      console.log(location[j].cookiesPerHour[i]);
+      hourlyTotal += location[j].cookiesPerHour[i];
+      totalOfTotals += location[j].totalDailyCookiesSold;
+    }
+    tableHeadEl = document.createElement('th');
+    tableHeadEl.textContent = hourlyTotal;
+    tableRowEl.appendChild(tableHeadEl);
+  }
+  tableHeadEl = document.createElement('th');
+  tableHeadEl.textContent = totalOfTotals;
+  tableRowEl.appendChild(tableHeadEl);
+  theTable.appendChild(tableRowEl);
+}
+
+// }
+//render
 Store.prototype.render = function() {
+  console.log('render');
   var tableRowEl = document.createElement('tr');
   var tableDataEl = document.createElement('td');
   tableDataEl.textContent = this.location;
@@ -103,13 +141,22 @@ function handleSubmission(event){
   event.target.avgc.value = null;
 }
 header();
+// renderAllStores();
+makeFooterRow();
+
 var pikePlaceMkt = new Store('Pike Place Market', 23, 65, 6.3);
 var seaTacAirport = new Store( 'SeaTac Airport', 3, 24, 1.2);
 var seattleCenter = new Store( 'Seattle Center', 11, 38, 3.7);
 var capitolHill = new Store( 'Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 3, 24, 1.2);
-
+//
+// function handleForm(e){
+//   e.preventDefault();
+//   console.log(e);
+// }
 newLocations.addEventListener('submit', handleSubmission);
+
+// theForm.addEventListener('submit',handleForm);
 
 // pikePlaceMkt.getCookiesSold ();
 // seaTacAirport.getCookiesSold ();
